@@ -30,24 +30,26 @@ def ShowData(request):
     except:
         return HttpResponse('CODE ERROR')
     
-def EditData(request,pk):
-    # try:  
-        updtt = InfoModel.objects.get(pk=pk)
-        context = {}
-        context['form'] = StudentForm
-        return render(request,'update.html',context,{'updtt':updtt})    
-    # except:
-    #     return HttpResponse('CODE ERROR')
-
-def UpdateData(request,pk):
+def EditData(request, pk):
     try:
-        updtt = InfoModel.objects.get(id=pk)
+        instance = InfoModel.objects.get(id=pk)
+        form = StudentForm(instance=instance)
+        return render(request, 'update.html', {'form': form, 'pk': pk})
+    except InfoModel.DoesNotExist:
+        return HttpResponse('CODE ERROR')
+
+def UpdateData(request, pk):
+    try:
+        instance = InfoModel.objects.get(id=pk)
         if request.method == 'POST':
-            Names = request.POST.get('Name')
-            Phones = request.POST.get('Phone')
-            updtt.update(Name=Names,Phone=Phones)
-            return redirect('update',pk=pk)
-    except:
+            form = StudentForm(request.POST, instance=instance)
+            if form.is_valid():
+                form.save()
+                return redirect('update', pk=pk)
+        else:
+            form = StudentForm(instance=instance)
+        return render(request, 'update.html', {'form': form, 'pk': pk})
+    except InfoModel.DoesNotExist:
         return HttpResponse('CODE ERROR')
     
 def DeleteData(reuqest,pk):
