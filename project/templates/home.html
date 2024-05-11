@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Data</title>
-    <!-- Link Bootstrap CSS -->
+    <title>Registration Form</title>
+    <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         /* Optional: Add custom CSS for further styling */
@@ -37,26 +37,26 @@
             padding: 15px; /* Adjust the padding */
             font-size: 16px;
         }
-        .update-form {
+        .registration-form {
             min-height: 400px; /* Set minimum height of the form */
         }
     </style>
 </head>
 <body>
     {% block content %}
-    <div class="container update-form" style="height: 400px; margin-top: 100px;" >
-        <h2>Update Data</h2>
-        <form action="{% url 'update' pk=gettt.id %}" method="POST" style="width: 100%;" >
+    <div class="container registration-form" style="height: 400px; margin-top: 100px;" >
+        <h2>Registration Form</h2>
+        <form action="{% url 'register' %}" method="POST" style="width: 100%;" >
             {% csrf_token %}
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" name="name" class="form-control" placeholder="{{gettt.Name}}" style="border-radius: 8px;">
+                <input type="text" name="name" class="form-control" style="border-radius: 8px;">
             </div>
             <div class="form-group">
                 <label for="phone">Phone:</label>
-                <input type="text" name="phone" class="form-control" placeholder="{{gettt.Phone}}" style="border-radius: 8px;">
+                <input type="text" name="phone" class="form-control" style="border-radius: 8px;">
             </div>
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
 

@@ -3,20 +3,19 @@ from .models import InfoModel
 from .forms import StudentForm
 # Create your views here.
 
+
 def Home(request):
-    context = {}
-    context['form'] = StudentForm
-    return render(request,'index.html',context)
+    return render(request,'home.html')
 
 def Registration(request):
     try:
         if request.method == 'POST':
-            Names = request.POST.get('Name')
-            Phones = request.POST.get('Phone')
+            Names = request.POST.get('name')
+            Phones = request.POST.get('phone')
             createData = InfoModel.objects.create(Name=Names,Phone=Phones)
-            return redirect('index')
+            return redirect('home')
         else:
-            return redirect('index')
+            return redirect('home')
     except:
         return HttpResponse('CODE ERROR')
     
@@ -32,23 +31,18 @@ def ShowData(request):
     
 def EditData(request, pk):
     try:
-        instance = InfoModel.objects.get(id=pk)
-        form = StudentForm(instance=instance)
-        return render(request, 'update.html', {'form': form, 'pk': pk})
+        gettt = InfoModel.objects.get(id=pk)
+        return render(request, 'update.html', {'gettt':gettt})
     except InfoModel.DoesNotExist:
         return HttpResponse('CODE ERROR')
 
 def UpdateData(request, pk):
     try:
-        instance = InfoModel.objects.get(id=pk)
-        if request.method == 'POST':
-            form = StudentForm(request.POST, instance=instance)
-            if form.is_valid():
-                form.save()
-                return redirect('update', pk=pk)
-        else:
-            form = StudentForm(instance=instance)
-        return render(request, 'update.html', {'form': form, 'pk': pk})
+        settt = InfoModel.objects.get(id=pk)
+        settt.Name = request.POST.get('name')
+        settt.Phone = request.POST.get('phone')
+        settt.save()
+        return redirect('showdata')
     except InfoModel.DoesNotExist:
         return HttpResponse('CODE ERROR')
     
@@ -57,5 +51,13 @@ def DeleteData(reuqest,pk):
         Delt = InfoModel.objects.filter(id=pk)
         Delt.delete()
         return redirect('showdata')
+    except:
+        return HttpResponse('CODE ERROR')
+    
+def SearchData(request):
+    try:
+        Names = request.POST.get('names') 
+        srch = InfoModel.objects.filter(Name__icontains=Names)
+        return render(request,'result.html',{'srch':srch})
     except:
         return HttpResponse('CODE ERROR')

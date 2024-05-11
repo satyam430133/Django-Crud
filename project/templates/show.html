@@ -1,45 +1,74 @@
+{% extends 'base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Data Table</title>
     <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         /* Optional: Add custom CSS for further styling */
         body {
-            margin: 20px;
+            margin: 0;
+            padding-bottom: 100px; /* Adjust as per your footer height */
+            min-height: 100vh;
+            position: relative;
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px; /* Adjust as per your footer height */
+            background-color: #f5f5f5;
+            text-align: center;
+            line-height: 100px; /* Center vertically */
+        }
+        /* Add custom style for the search input */
+        .search-input {
+            border-radius: 20px;
         }
     </style>
 </head>
 <body>
-    <button> <a href=" {% url 'index' %} "> GO TO HOME </a> </button>
-    <div class="container">
+    {% block content %}
+    <div class="container" style="max-height: auto; min-height: 500px;">
+        <br/>
+        <!-- Remove the "Go to Home" button -->
+        <h1 class="text-center mb-4"> Users </h1>
+        <form action="{% url 'search' %}" method="POST">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <input type="text" name="names" class="form-control search-input" placeholder="Search by Name" aria-label="Search" aria-describedby="searchButton">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit" id="searchButton">Search</button>
+                </div>
+            </div>
+        </form>
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th> ID </th>
-                    <th> NAMES </th>
-                    <th> CONTACT </th>
-                    <th> EDIT </th>
-                    <th> DELETE </th>
+                    <th>ID</th>
+                    <th>Names</th>
+                    <th>Contact</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
-                {% for i in alldata %}
+                {% for data in alldata %}
                 <tr>
-                    <td> {{i.id}} </td>
-                    <td> {{i.Name}} </td>
-                    <td> {{i.Phone}} </td>
-                    <td> <button> <a href="{% url 'edit' pk=i.id %}"> Edit </a> </button> </td>
-                    <td> <button> <a href="{% url 'delete' pk=i.id %}"> Delete </a> </button> </td>
+                    <td>{{ data.id }}</td>
+                    <td>{{ data.Name }}</td>
+                    <td>{{ data.Phone }}</td>
+                    <td><a href="{% url 'edit' pk=data.id %}" class="btn btn-primary btn-sm">Edit</a></td>
+                    <td><a href="{% url 'delete' pk=data.id %}" class="btn btn-danger btn-sm">Delete</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-
+    {% endblock %}
     <!-- Add Bootstrap JS (optional) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
