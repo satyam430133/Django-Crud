@@ -5,7 +5,7 @@ from .forms import StudentForm
 
 
 def Home(request):
-    return render(request,'home.html')
+    return render(request,'index.html')
 
 def Registration(request):
     try:
