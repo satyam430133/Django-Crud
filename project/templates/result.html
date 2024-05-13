@@ -1,3 +1,4 @@
+{% extends 'base.html'%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,11 +15,10 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Back to Home Button -->
-        <button class="btn btn-primary mb-3"><a href="{% url 'index' %}" class="text-white">Back to Home</a></button>
-        <!-- Go to Show Data Button -->
-        <button class="btn btn-primary mb-3"><a href="{% url 'showdata' %}" class="text-white">Go to Show Data</a></button>
+    {% block content %}
+    <br/>
+    <h1 class="text-center mb-4"> Search Result </h1>
+    <div class="container" style="height: 400px;">
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
@@ -47,5 +47,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}
 </body>
 </html>

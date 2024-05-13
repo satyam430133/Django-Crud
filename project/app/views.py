@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,HttpResponse
 from .models import InfoModel
 from .forms import StudentForm
+from django.db.models import Q
 # Create your views here.
 
 
@@ -57,7 +58,8 @@ def DeleteData(reuqest,pk):
 def SearchData(request):
     try:
         Names = request.POST.get('names') 
-        srch = InfoModel.objects.filter(Name__icontains=Names)
+        contidion = Q(Name__icontains=Names) | Q(Phone__icontains=Names)
+        srch = InfoModel.objects.filter(contidion)
         return render(request,'result.html',{'srch':srch})
     except:
         return HttpResponse('CODE ERROR')
